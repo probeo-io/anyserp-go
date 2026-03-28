@@ -206,10 +206,14 @@ if results.AiOverview != nil {
 }
 ```
 
-## Also Available
+## See Also
 
-- **Node.js**: [`@probeo/anyserp`](https://github.com/probeo-io/anyserp) on npm
-- **Python**: [`anyserp`](https://github.com/probeo-io/anyserp-py) on PyPI
+| Package | Description |
+|---|---|
+| [@probeo/anyserp](https://github.com/probeo-io/anyserp) | TypeScript version of this package |
+| [anyserp-py](https://github.com/probeo-io/anyserp-py) | Python version of this package |
+| [anymodel-go](https://github.com/probeo-io/anymodel-go) | Unified LLM router for Go |
+| [workflow-go](https://github.com/probeo-io/workflow-go) | Stage-based pipeline engine for Go |
 
 ## License
 
