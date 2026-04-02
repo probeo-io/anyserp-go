@@ -1,6 +1,14 @@
 # anyserp-go
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/probeo-io/anyserp-go.svg)](https://pkg.go.dev/github.com/probeo-io/anyserp-go)
+[![CI](https://github.com/probeo-io/anyserp-go/actions/workflows/ci.yml/badge.svg)](https://github.com/probeo-io/anyserp-go/actions/workflows/ci.yml)
+[![License](https://img.shields.io/github/license/probeo-io/anyserp-go)](LICENSE)
+
 Unified SERP API router for Go. Route search requests across Google, Bing, Brave, and more with a single API. Self-hosted, zero fees.
+
+## Why anyserp?
+
+One SDK, 11 SERP providers. Switch providers without changing code. Every provider returns the same unified response struct, so your application logic stays clean regardless of which provider handles the request. Your API keys, your infrastructure, zero routing fees. Built-in fallback routing means if one provider fails, the next is tried automatically.
 
 ## Install
 
@@ -214,6 +222,10 @@ if results.AiOverview != nil {
 | [anyserp-py](https://github.com/probeo-io/anyserp-py) | Python version of this package |
 | [anymodel-go](https://github.com/probeo-io/anymodel-go) | Unified LLM router for Go |
 | [workflow-go](https://github.com/probeo-io/workflow-go) | Stage-based pipeline engine for Go |
+
+## Support
+
+If anyserp is useful to you, consider giving it a star. It helps others discover the project.
 
 ## License
 
