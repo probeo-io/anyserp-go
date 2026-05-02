@@ -201,6 +201,9 @@ func (a *SearchAPIAdapter) Search(ctx context.Context, request SearchRequest) (*
 					Lng: jsonFloat(gps, "longitude"),
 				}
 			}
+			if v := jsonStr(r, "kgmid"); v != "" {
+				res.Kgmid = v
+			}
 			results = append(results, res)
 		}
 	}

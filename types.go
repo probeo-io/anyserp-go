@@ -4,7 +4,7 @@ package anyserp
 import "context"
 
 // Version is the current library version.
-const Version = "0.2.1"
+const Version = "0.2.2"
 
 // SearchType specifies the kind of search to perform.
 type SearchType string
@@ -86,6 +86,7 @@ type SearchResult struct {
 	PlaceType   string       `json:"placeType,omitempty"`
 	Hours       string       `json:"hours,omitempty"`
 	Coordinates *Coordinates `json:"coordinates,omitempty"`
+	Kgmid       string       `json:"kgmid,omitempty"`
 }
 
 // PeopleAlsoAsk represents a "People Also Ask" item.
