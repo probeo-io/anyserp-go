@@ -405,8 +405,8 @@ func TestGetRegistry(t *testing.T) {
 }
 
 func TestVersion(t *testing.T) {
-	if Version != "0.1.0" {
-		t.Errorf("expected version 0.1.0, got %s", Version)
+	if Version != "0.2.1" {
+		t.Errorf("expected version 0.2.1, got %s", Version)
 	}
 }
 

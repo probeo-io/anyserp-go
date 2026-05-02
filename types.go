@@ -4,7 +4,7 @@ package anyserp
 import "context"
 
 // Version is the current library version.
-const Version = "0.2.0"
+const Version = "0.2.1"
 
 // SearchType specifies the kind of search to perform.
 type SearchType string

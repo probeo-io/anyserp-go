@@ -19,7 +19,7 @@ var searchAPIEngineMap = map[SearchType]string{
 	SearchTypeImages: "google_images",
 	SearchTypeNews:   "google_news",
 	SearchTypeVideos: "google_videos",
-	SearchTypePlaces: "google_places",
+	SearchTypePlaces: "google_maps",
 }
 
 var searchAPITimePeriodMap = map[DateRange]string{
