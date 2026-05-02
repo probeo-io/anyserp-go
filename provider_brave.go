@@ -9,6 +9,10 @@ import (
 	"strconv"
 )
 
+var braveSupportedTypes = map[SearchType]bool{
+	SearchTypeWeb: true, SearchTypeImages: true, SearchTypeNews: true, SearchTypeVideos: true,
+}
+
 var braveTypeEndpoints = map[SearchType]string{
 	SearchTypeWeb:    "/web/search",
 	SearchTypeImages: "/images/search",
@@ -36,7 +40,7 @@ func NewBraveAdapter(apiKey string, client *http.Client) *BraveAdapter {
 
 func (a *BraveAdapter) Name() string { return "brave" }
 
-func (a *BraveAdapter) SupportsType(_ SearchType) bool { return true }
+func (a *BraveAdapter) SupportsType(t SearchType) bool { return braveSupportedTypes[t] }
 
 func (a *BraveAdapter) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
 	searchType := request.Type

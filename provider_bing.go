@@ -9,6 +9,10 @@ import (
 	"strconv"
 )
 
+var bingSupportedTypes = map[SearchType]bool{
+	SearchTypeWeb: true, SearchTypeImages: true, SearchTypeNews: true, SearchTypeVideos: true,
+}
+
 var bingTypeEndpoints = map[SearchType]string{
 	SearchTypeWeb:    "/search",
 	SearchTypeImages: "/images/search",
@@ -35,7 +39,7 @@ func NewBingAdapter(apiKey string, client *http.Client) *BingAdapter {
 
 func (a *BingAdapter) Name() string { return "bing" }
 
-func (a *BingAdapter) SupportsType(_ SearchType) bool { return true }
+func (a *BingAdapter) SupportsType(t SearchType) bool { return bingSupportedTypes[t] }
 
 func (a *BingAdapter) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
 	searchType := request.Type

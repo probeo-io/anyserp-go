@@ -4,7 +4,7 @@ package anyserp
 import "context"
 
 // Version is the current library version.
-const Version = "0.1.0"
+const Version = "0.2.0"
 
 // SearchType specifies the kind of search to perform.
 type SearchType string
@@ -14,6 +14,7 @@ const (
 	SearchTypeImages SearchType = "images"
 	SearchTypeNews   SearchType = "news"
 	SearchTypeVideos SearchType = "videos"
+	SearchTypePlaces SearchType = "places"
 )
 
 // DateRange specifies a time-based filter for search results.
@@ -53,6 +54,12 @@ type SearchResponse struct {
 	AiOverview      *AiOverview     `json:"aiOverview,omitempty"`
 }
 
+// Coordinates holds a geographic latitude/longitude pair.
+type Coordinates struct {
+	Lat float64 `json:"lat"`
+	Lng float64 `json:"lng"`
+}
+
 // SearchResult represents a single search result.
 type SearchResult struct {
 	Position      int    `json:"position"`
@@ -71,6 +78,14 @@ type SearchResult struct {
 	// Video-specific
 	Duration string `json:"duration,omitempty"`
 	Channel  string `json:"channel,omitempty"`
+	// Places-specific
+	Address     string       `json:"address,omitempty"`
+	Phone       string       `json:"phone,omitempty"`
+	Rating      float64      `json:"rating,omitempty"`
+	ReviewCount int          `json:"reviewCount,omitempty"`
+	PlaceType   string       `json:"placeType,omitempty"`
+	Hours       string       `json:"hours,omitempty"`
+	Coordinates *Coordinates `json:"coordinates,omitempty"`
 }
 
 // PeopleAlsoAsk represents a "People Also Ask" item.

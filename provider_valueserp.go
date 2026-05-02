@@ -9,6 +9,10 @@ import (
 	"strconv"
 )
 
+var valueSerpSupportedTypes = map[SearchType]bool{
+	SearchTypeWeb: true, SearchTypeImages: true, SearchTypeNews: true, SearchTypeVideos: true,
+}
+
 var valueSerpSearchTypeMap = map[SearchType]string{
 	SearchTypeWeb:    "web",
 	SearchTypeImages: "images",
@@ -36,7 +40,7 @@ func NewValueSerpAdapter(apiKey string, client *http.Client) *ValueSerpAdapter {
 
 func (a *ValueSerpAdapter) Name() string { return "valueserp" }
 
-func (a *ValueSerpAdapter) SupportsType(_ SearchType) bool { return true }
+func (a *ValueSerpAdapter) SupportsType(t SearchType) bool { return valueSerpSupportedTypes[t] }
 
 func (a *ValueSerpAdapter) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
 	searchType := request.Type

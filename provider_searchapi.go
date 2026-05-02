@@ -9,11 +9,17 @@ import (
 	"strconv"
 )
 
+var searchAPISupportedTypes = map[SearchType]bool{
+	SearchTypeWeb: true, SearchTypeImages: true, SearchTypeNews: true,
+	SearchTypeVideos: true, SearchTypePlaces: true,
+}
+
 var searchAPIEngineMap = map[SearchType]string{
 	SearchTypeWeb:    "google",
 	SearchTypeImages: "google_images",
 	SearchTypeNews:   "google_news",
 	SearchTypeVideos: "google_videos",
+	SearchTypePlaces: "google_places",
 }
 
 var searchAPITimePeriodMap = map[DateRange]string{
@@ -36,7 +42,7 @@ func NewSearchAPIAdapter(apiKey string, client *http.Client) *SearchAPIAdapter {
 
 func (a *SearchAPIAdapter) Name() string { return "searchapi" }
 
-func (a *SearchAPIAdapter) SupportsType(_ SearchType) bool { return true }
+func (a *SearchAPIAdapter) SupportsType(t SearchType) bool { return searchAPISupportedTypes[t] }
 
 func (a *SearchAPIAdapter) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
 	searchType := request.Type
@@ -169,6 +175,33 @@ func (a *SearchAPIAdapter) Search(ctx context.Context, request SearchRequest) (*
 				Thumbnail:     jsonStr(r, "thumbnail"),
 				DatePublished: jsonStr(r, "date"),
 			})
+		}
+	case SearchTypePlaces:
+		for i, r := range jsonArray(data, "local_results") {
+			res := SearchResult{
+				Position:    i + 1,
+				Title:       jsonStr(r, "title"),
+				URL:         jsonStr(r, "website"),
+				Description: jsonStr(r, "address"),
+				Address:     jsonStr(r, "address"),
+				Phone:       jsonStr(r, "phone"),
+				PlaceType:   jsonStr(r, "type"),
+				Hours:       jsonStr(r, "hours"),
+				Thumbnail:   jsonStr(r, "thumbnail"),
+			}
+			if v := jsonFloat(r, "rating"); v > 0 {
+				res.Rating = v
+			}
+			if v := jsonInt(r, "reviews"); v > 0 {
+				res.ReviewCount = v
+			}
+			if gps := jsonObj(r, "gps_coordinates"); gps != nil {
+				res.Coordinates = &Coordinates{
+					Lat: jsonFloat(gps, "latitude"),
+					Lng: jsonFloat(gps, "longitude"),
+				}
+			}
+			results = append(results, res)
 		}
 	}
 

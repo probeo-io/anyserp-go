@@ -8,11 +8,17 @@ import (
 	"net/http"
 )
 
+var serperSupportedTypes = map[SearchType]bool{
+	SearchTypeWeb: true, SearchTypeImages: true, SearchTypeNews: true,
+	SearchTypeVideos: true, SearchTypePlaces: true,
+}
+
 var serperTypeEndpoints = map[SearchType]string{
 	SearchTypeWeb:    "/search",
 	SearchTypeImages: "/images",
 	SearchTypeNews:   "/news",
 	SearchTypeVideos: "/videos",
+	SearchTypePlaces: "/places",
 }
 
 var serperDateMap = map[DateRange]string{
@@ -35,7 +41,7 @@ func NewSerperAdapter(apiKey string, client *http.Client) *SerperAdapter {
 
 func (a *SerperAdapter) Name() string { return "serper" }
 
-func (a *SerperAdapter) SupportsType(_ SearchType) bool { return true }
+func (a *SerperAdapter) SupportsType(t SearchType) bool { return serperSupportedTypes[t] }
 
 func (a *SerperAdapter) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
 	searchType := request.Type
@@ -120,6 +126,27 @@ func (a *SerperAdapter) Search(ctx context.Context, request SearchRequest) (*Sea
 				Thumbnail:     jsonStr(r, "imageUrl"),
 				DatePublished: jsonStr(r, "date"),
 			})
+		}
+	case SearchTypePlaces:
+		for i, r := range jsonArray(data, "places") {
+			res := SearchResult{
+				Position:    i + 1,
+				Title:       jsonStr(r, "title"),
+				URL:         jsonStr(r, "website"),
+				Description: jsonStr(r, "address"),
+				Address:     jsonStr(r, "address"),
+				Phone:       jsonStr(r, "phoneNumber"),
+				PlaceType:   jsonStr(r, "type"),
+				Hours:       jsonStr(r, "hours"),
+				Thumbnail:   jsonStr(r, "imageUrl"),
+			}
+			if v := jsonFloat(r, "rating"); v > 0 {
+				res.Rating = v
+			}
+			if v := jsonInt(r, "ratingCount"); v > 0 {
+				res.ReviewCount = v
+			}
+			results = append(results, res)
 		}
 	}
 

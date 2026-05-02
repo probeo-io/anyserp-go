@@ -10,6 +10,10 @@ import (
 	"strconv"
 )
 
+var brightDataSupportedTypes = map[SearchType]bool{
+	SearchTypeWeb: true, SearchTypeImages: true, SearchTypeNews: true, SearchTypeVideos: true,
+}
+
 var brightDataTBMMap = map[SearchType]string{
 	SearchTypeImages: "isch",
 	SearchTypeNews:   "nws",
@@ -29,7 +33,7 @@ func NewBrightDataAdapter(apiKey string, client *http.Client) *BrightDataAdapter
 
 func (a *BrightDataAdapter) Name() string { return "brightdata" }
 
-func (a *BrightDataAdapter) SupportsType(_ SearchType) bool { return true }
+func (a *BrightDataAdapter) SupportsType(t SearchType) bool { return brightDataSupportedTypes[t] }
 
 func (a *BrightDataAdapter) Search(ctx context.Context, request SearchRequest) (*SearchResponse, error) {
 	searchType := request.Type
